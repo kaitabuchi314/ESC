@@ -1,7 +1,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
 #include <esc.h>
 
 struct FruitComponent
@@ -39,10 +38,13 @@ int main()
 	esc::manager<FruitComponent> fruitManager = esc::manager<FruitComponent>(sys);
 	esc::manager<PizzaComponent> pizzaManager = esc::manager<PizzaComponent>(sys);
 
+	sys.registerManager<FruitComponent>(&fruitManager);
+	sys.registerManager<PizzaComponent>(&pizzaManager);
+
 	esc::Entity entity = sys.createEntity();
 
-	sys.add(entity, FruitComponent { 8, 9.5f });
-	sys.add(entity, PizzaComponent { 15, true });
+	fruitManager.add(entity, FruitComponent { 8, 9.5f });
+	pizzaManager.add(entity, PizzaComponent { 15, true });
 
 	update(&sys);
 
